@@ -35,6 +35,21 @@ let inViewPort = (element) => {
       (window.innerWidth || document.documentElement.clientWidth)
   );
 };
+
+removeAllActiveLinks = () => {
+  let items = document.querySelectorAll("li");
+  for (item of items) item.querySelector("a").classList.remove("link-active");
+};
+
+addActiveLink = (id) => {
+  let items = document.querySelectorAll("li");
+  for (item of items) {
+    let a_item = item.querySelector("a");
+    if (a_item.getAttribute("href") == `#${id}`) {
+      a_item.classList.add("link-active");
+    }
+  }
+};
 /**
  * End Helper Functions
  * Begin Main Functions
@@ -83,9 +98,12 @@ document.addEventListener("load", buildNavMenu());
 // Set sections as active
 document.addEventListener("scroll", () => {
   for (section of sections) {
+    let sectionId = section.id;
     // Add class 'active' to section when near top of viewport
     if (inViewPort(section)) {
       section.classList.add("your-active-class");
+      removeAllActiveLinks();
+      addActiveLink(sectionId);
     } else {
       section.classList.remove("your-active-class");
     }
